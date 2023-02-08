@@ -1,11 +1,15 @@
 
 # connect to wifi in micropython 
 import network
+import creds
 
 sta = network.WLAN(network.STA_IF)
-sta.active(True)
-sta.connect("TP-Link_BF88", "55702461")
-   
-# outpiut wifi status
-print(sta.isconnected())
+if not sta.isconnected():
+    sta.active(True)
+    sta.connect(creds.WIFI_SSID, creds.WIFI_PASSWORD)
+    print("connecting to wifi")
+    while not sta.isconnected():
+        pass
+
+print("connected to wifi: ", sta.ifconfig())
 
